@@ -1,0 +1,43 @@
+{
+  "reference": "node-a",
+  "target": "node-b",
+  "formula": "B_corrected = slope*B + intercept",
+  "source": "calib_20261113.csv (2026-11-13 18:45 ~ 11-14 16:31 KST, warm-up 30 min excluded, 1-min means)",
+  "params": {
+    "temp": {
+      "slope": 1.0,
+      "intercept": 0.07,
+      "method": "offset"
+    },
+    "eco2": {
+      "slope": 0.9,
+      "intercept": 41.49,
+      "method": "linear"
+    },
+    "tvoc": {
+      "slope": 1.0,
+      "intercept": 4.01,
+      "method": "offset"
+    },
+    "pm1": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none (already within ~5%)"
+    },
+    "pm25": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none (already within ~5%)"
+    },
+    "pm10": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none (already within ~5%)"
+    }
+  },
+  "node_a_dp_zero_offset_pa": -0.01,
+  "excluded": {
+    "humid": "node-b SHT31 humidity channel faulty (stuck ~76%, does not respond to breath/heat). Do NOT calibrate or use node-b humid. Use node-a humid only. Keep node-b temp (works)."
+  },
+  "version": "v2 (2026-11-14, humidity removed)"
+}
