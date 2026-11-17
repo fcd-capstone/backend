@@ -1,3 +1,5 @@
+> 최신 규칙 엔진·이벤트 API 및 남은 범위는 **UPDATE_v0.3.md**를 먼저 확인하세요. 아래 이전 버전의 분석 미구현 설명은 규칙 실행 기반 추가 전 기록입니다.
+
 # FCD Backend
 
 프론트와 독립된 FastAPI 백엔드 저장소입니다. 현재 CSV 재생·조회 연동 버전이며 최종 판별 시스템은 아닙니다.
@@ -49,3 +51,17 @@ git push -u origin main
 ```
 
 공개 저장소라면 측정 CSV 공개 가능 여부를 먼저 확인하세요. 공개하지 않을 경우 data/*.csv를 .gitignore에 추가하고 실행할 컴퓨터에만 파일을 배치하세요. 로컬 SQLite DB 및 가상환경은 커밋하지 않습니다.
+
+
+## 프론트 연동 회귀 검증 (2026-11-17)
+
+최신 front의 src/data/api.ts 및 docs/api-coordination.md와 대조했습니다. 기존 API 경로와 응답을 유지합니다.
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m unittest discover -s tests -v
+```
+
+총 15개 테스트(기존 7+HTTP 연동 8)가 통과했습니다. HTTP 테스트는 임시 DB에 동봉 CSV를 적재하며 기존 로컬 DB를 변경하지 않습니다. 프론트 필수 필드, CORS, 보정·습도 제외, seek 초기화, 재생 상태, 시계열 요청 제한, SSE 첫 프레임을 검사합니다. 브라우저 E2E, SSE 장시간 재연결, 실제 현장 시험은 미검증입니다.
+
+추가 변경: snapshot은 노드별 시간 인덱스를 이진 탐색하여 전체 CSV 반복 순회를 피하고, 시계열은 요청 구간만 검색합니다. 메모리 세션·단일 worker 제약은 동일합니다. DB_PATH와 CORS_ORIGINS 환경변수를 지원합니다. 수치 요청에서 NaN/Infinity를 거절합니다. CORS_ORIGINS는 쉼표로 구분한 프론트 origin 목록입니다. 기본은 localhost:5173 및 127.0.0.1:5173입니다. .env 파일은 자동 로딩하지 않습니다.

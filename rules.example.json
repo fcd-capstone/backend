@@ -1,0 +1,26 @@
+{
+  "version": "example-synthetic-not-for-experiments",
+  "enabled": false,
+  "window_seconds": 60,
+  "rules": [
+    {
+      "id": "example-voc",
+      "cause": "equipment_fault",
+      "hold_seconds": 10,
+      "recovery_seconds": 15,
+      "priority_score": 50,
+      "conditions": [
+        {
+          "node": "node-a",
+          "sensor": "tvoc",
+          "feature": "delta",
+          "op": "gt",
+          "threshold": 100
+        }
+      ],
+      "recommended_actions": [
+        "확정 판정이 아니므로 실험 로그와 장비 상태를 확인하세요."
+      ]
+    }
+  ]
+}

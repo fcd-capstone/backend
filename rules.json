@@ -1,0 +1,6 @@
+{
+  "version": "rules-v0.1-unvalidated",
+  "enabled": false,
+  "window_seconds": 60,
+  "rules": []
+}
