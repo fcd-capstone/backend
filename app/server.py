@@ -12,8 +12,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel,ConfigDict
 from .core import connect,ingest,load_calibration,derive
 ROOT=Path(__file__).resolve().parents[1]
-DB_PATH=Path(os.getenv('DB_PATH', str(ROOT/'data/backend.sqlite3')))
-app=FastAPI(title='FCD integration subset',version='0.3.0')
+DB_PATH=Path(os.getenv('DB_PATH', str(ROOT/'data/backend_v04.sqlite3')))
+app=FastAPI(title='FCD integration subset',version='0.4.0')
 app.add_middleware(CORSMiddleware,allow_origins=[x.strip() for x in os.getenv('CORS_ORIGINS','http://localhost:5173,http://127.0.0.1:5173').split(',') if x.strip()],allow_methods=['GET','POST','PATCH'],allow_headers=['Content-Type'])
 sessions={}
 LOCK=threading.RLock()
@@ -64,11 +64,13 @@ def datasets():
 def initialize():
  db=database()
  try:
-  if not db.execute('SELECT 1 FROM datasets LIMIT 1').fetchone():
-   for f,k in [('sample_5min.csv','sample'),('calib_20261113.csv','calibration')]:ingest(db,ROOT/'data'/f,k)
+  seed_examples=not db.execute('SELECT 1 FROM datasets LIMIT 1').fetchone()
+  for f,k in [('sample_5min.csv','sample'),('calib_20261113.csv','calibration'),('data_20261117_164803_fixed.csv','experiment')]:
+   path=ROOT/'data'/f
+   if path.exists() and (k=='experiment' or seed_examples) and not db.execute('SELECT 1 FROM datasets WHERE name=? AND kind=?',(f,k)).fetchone(): ingest(db,path,k)
  finally:db.close()
 @app.get('/api/v1/health')
-def health():return wrap({'status':'ok','version':'0.3.0','server_ts':time.time(),'capabilities':{'live':False,'replay':True,'analysis':bool(rules_config()['enabled'] and rules_config()['rules']),'labels':False}})
+def health():return wrap({'status':'ok','version':'0.4.0','server_ts':time.time(),'capabilities':{'live':False,'replay':True,'analysis':bool(rules_config()['enabled'] and rules_config()['rules']),'labels':(ROOT/'data'/'labels_day1.csv').exists()}})
 @app.get('/api/v1/datasets')
 def list_datasets():return wrap([{'id':str(d['id']),'name':d['name'],'kind':d['kind'],'start_ts':d['start_ts'],'end_ts':d['end_ts']} for d in datasets()])
 class Create(BaseModel):
@@ -100,10 +102,10 @@ def create(b:Create):
  d=next((d for d in datasets() if str(d['id'])==b.dataset_id),None)
  if not d:raise HTTPException(404,'Dataset not found')
  db=database()
- try:rows=[json.loads(r['raw']) for r in db.execute('SELECT m.raw FROM measurements m JOIN membership x ON m.node=x.node AND m.boot=x.boot AND m.seq=x.seq WHERE x.dataset_id=? ORDER BY m.ts,m.node',(d['id'],))]
+ try:rows=[json.loads(r['raw']) for r in db.execute('SELECT m.raw FROM measurements m JOIN membership x ON m.node=x.node AND m.ts=x.ts WHERE x.dataset_id=? ORDER BY m.ts,m.node',(d['id'],))]
  finally:db.close()
  sid=str(uuid.uuid4());now=time.time()
- s=dict(id=sid,mode='replay',dataset_id=b.dataset_id,state='paused',speed=b.speed,virtual_ts=d['start_ts'],start_ts=d['start_ts'],end_ts=d['end_ts'],generation=1,analysis_status='disabled',analysis_reason='analysis_not_implemented',created_at=now,updated_at=now,_rows=rows,_cal=load_calibration(ROOT/'calib_params_v2.json'),_kind=d['kind'],_anchor_ts=d['start_ts'],_anchor_clock=time.monotonic(),_from=d['start_ts'],_played=False)
+ s=dict(id=sid,mode='replay',dataset_id=b.dataset_id,state='paused',speed=b.speed,virtual_ts=d['start_ts'],start_ts=d['start_ts'],end_ts=d['end_ts'],generation=1,analysis_status='disabled',analysis_reason='analysis_not_implemented',created_at=now,updated_at=now,_rows=rows,_cal=load_calibration(ROOT/'calib_params_v3.json'),_kind=d['kind'],_anchor_ts=d['start_ts'],_anchor_clock=time.monotonic(),_from=d['start_ts'],_played=False)
  s['_node_rows']={n:[r for r in rows if r['node']==n] for n in ['node-a','node-b']}
  s['_node_times']={n:[r['ts'] for r in rs] for n,rs in s['_node_rows'].items()}
  setup_analysis(s)
@@ -155,6 +157,7 @@ def snapshot(s):
    q='missing';v=None
    if p:v=p['values'][k];q=p['quality'].get(k,'ok')
    if n=='node-b' and k=='humid':q='disabled'
+   elif q=='disabled_wiring':q='disabled'
    elif n=='node-b' and k in ['co2','dp']:q='not_installed'
    elif gap:q='stale'
    elif v is None:q='missing'
@@ -224,3 +227,11 @@ def stream(sid:str):
    yield 'event: snapshot.updated\ndata: '+json.dumps(wrap(snapshot(get(sid))),ensure_ascii=False)+'\n\n'
    await asyncio.sleep(1)
  return StreamingResponse(generate(),media_type='text/event-stream',headers={'Cache-Control':'no-cache'})
+
+from .labels import EXPERIMENT, load_labels
+@app.get('/api/v1/datasets/{dataset_id}/labels')
+def dataset_labels(dataset_id:str):
+ d=next((d for d in datasets() if str(d['id'])==dataset_id),None)
+ if d is None:raise HTTPException(404,'Dataset not found')
+ if d['kind']!='experiment' or d['name']!=EXPERIMENT:return wrap([])
+ return wrap(load_labels(ROOT/'data'))

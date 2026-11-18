@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "FCD integration subset",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -460,6 +460,29 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/labels": {
+      "get": {
+        "summary": "List experiment run labels and exclusion flags",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wrapped label array"
+          },
+          "404": {
+            "description": "Dataset not found"
           }
         }
       }

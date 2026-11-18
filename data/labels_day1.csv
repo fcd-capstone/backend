@@ -1,0 +1,77 @@
+﻿run,cause,event,ts,intensity,target_node,note
+7,normal,start,1794908976.380,,,order=1;아무 조작 없음;day1
+7,normal,end,1794909025.509,,,CANCEL
+8,normal,start,1794909115.590,,,order=1;아무 조작 없음;day1
+8,normal,end,1794909185.656,,,
+9,sensor_fault,start,1794909785.352,,node-a,order=2;미세먼지 데이터선 분리;day1
+9,sensor_fault,end,1794909845.874,,node-a,
+10,normal,start,1794909998.981,,,order=3;아무 조작 없음;day1
+10,normal,end,1794910067.270,,,
+11,equipment_fault,start,1794910167.562,,node-a,order=4;양초;day1
+11,equipment_fault,end,1794910229.498,,node-a,
+12,sensor_fault,start,1794910434.038,,node-b,order=5;미세먼지 데이터선 분리;day1
+12,sensor_fault,end,1794910495.793,,node-b,
+13,normal,start,1794910569.527,,,order=6;아무 조작 없음;day1
+13,normal,end,1794910635.784,,,
+14,worker_activity,start,1794910781.041,,,order=7;막대 포트로 천+핫팩 막대 흔들기;day1
+14,worker_activity,end,1794910845.192,,,
+15,sensor_fault,start,1794910982.682,,node-b,order=8;흡입구 차폐;day1
+15,sensor_fault,end,1794911048.951,,node-b,
+16,equipment_fault,start,1794911146.844,,node-a,order=9;에탄올;day1
+16,equipment_fault,end,1794911213.316,,node-a,
+17,worker_activity,start,1794912382.993,,,order=10;막대 포트로 천+핫팩 막대 흔들기;day1
+17,worker_activity,end,1794912437.192,,,CANCEL
+18,worker_activity,start,1794912500.580,,,order=10;막대 포트로 천+핫팩 막대 흔들기;day1
+18,worker_activity,end,1794912560.382,,,
+19,external_inflow,start,1794912738.346,,,order=11;앞면 도어 칼집 벌리기;day1
+19,external_inflow,end,1794912803.560,,,
+20,equipment_fault,start,1794912897.377,,node-a,order=12;양초;day1
+20,equipment_fault,end,1794912959.591,,node-a,
+21,hvac_fault,start,1794913428.496,,,order=13;팬 정지;day1
+21,hvac_fault,end,1794913493.426,,,
+22,worker_activity,start,1794913574.116,,,order=14;막대 포트로 천+핫팩 막대 흔들기;day1
+22,worker_activity,end,1794913634.010,,,
+23,sensor_fault,start,1794913750.178,,node-a,order=15;흡입구 차폐;day1
+23,sensor_fault,end,1794913811.648,,node-a,
+24,hvac_fault,start,1794913887.787,,,order=16;팬 정지;day1
+24,hvac_fault,end,1794913956.294,,,
+25,worker_activity,start,1794914028.990,,,order=17;막대 포트로 천+핫팩 막대 흔들기;day1
+25,worker_activity,end,1794914089.054,,,
+26,normal,start,1794914169.615,,,order=18;아무 조작 없음;day1
+26,normal,end,1794914234.243,,,
+27,worker_activity,start,1794914271.989,,,order=19;막대 포트로 천+핫팩 막대 흔들기;day1
+27,worker_activity,end,1794914324.435,,,CANCEL
+28,worker_activity,start,1794914546.213,,,order=19;막대 포트로 천+핫팩 막대 흔들기;day1
+28,worker_activity,end,1794914607.076,,,
+29,normal,start,1794914658.581,,,order=20;아무 조작 없음;day1
+29,normal,end,1794914720.173,,,
+30,external_inflow,start,1794914857.925,,,order=21;앞면 도어 칼집 벌리기;day1
+30,external_inflow,end,1794914918.910,,,
+31,sensor_fault,start,1794914986.014,,node-b,order=22;흡입구 차폐;day1
+31,sensor_fault,end,1794915047.250,,node-b,
+32,normal,start,1794915110.248,,,order=23;아무 조작 없음;day1
+32,normal,end,1794915171.077,,,
+33,equipment_fault,start,1794915208.802,,node-a,order=24;에탄올;day1
+33,equipment_fault,end,1794915276.995,,node-a,
+34,hvac_fault,start,1794915734.902,,,order=25;팬 정지;day1
+34,hvac_fault,end,1794915797.701,,,
+35,normal,start,1794915835.250,,,order=26;아무 조작 없음;day1
+35,normal,end,1794915895.838,,,
+36,external_inflow,start,1794915926.317,,,order=27;앞면 도어 칼집 벌리기;day1
+36,external_inflow,end,1794915987.505,,,
+37,normal,start,1794916055.925,,,order=28;아무 조작 없음;day1
+37,normal,end,1794916118.483,,,
+38,equipment_fault,start,1794916154.986,,node-a,order=29;양초;day1
+38,equipment_fault,end,1794916215.909,,node-a,
+39,hvac_fault,start,1794916690.574,,,order=30;필터 일부 차단;day1
+39,hvac_fault,end,1794916750.736,,,
+40,normal,start,1794916764.501,,,order=31;아무 조작 없음;day1
+40,normal,end,1794916825.457,,,
+41,external_inflow,start,1794916862.312,,,order=32;앞면 도어 칼집 벌리기;day1
+41,external_inflow,end,1794916922.664,,,
+42,normal,start,1794916994.887,,,order=33;아무 조작 없음;day1
+42,normal,end,1794917057.278,,,
+43,hvac_fault,start,1794917071.368,,,order=34;필터 일부 차단;day1
+43,hvac_fault,end,1794917131.823,,,
+44,external_inflow,start,1794917214.296,,,order=35;앞면 도어 칼집 벌리기;day1
+44,external_inflow,end,1794917278.220,,,

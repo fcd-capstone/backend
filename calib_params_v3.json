@@ -1,0 +1,53 @@
+{
+  "version": "v3 (2026-11-15, overnight co-location 11/14 21:16 ~ 11/15 16:33, 19.3 h)",
+  "reference": "node-a",
+  "target": "node-b",
+  "formula": "B_corrected = slope*B + intercept",
+  "source": "overnight_20261115.csv, 1-min means, fit on first half / tested on second half",
+  "params": {
+    "temp": {
+      "slope": 1.0,
+      "intercept": 0.24,
+      "method": "offset",
+      "test_mae_before": 0.2,
+      "test_mae_after": 0.07
+    },
+    "eco2": {
+      "slope": 0.858,
+      "intercept": 57.5,
+      "method": "linear",
+      "test_mae_before": 42.3,
+      "test_mae_after": 13.3
+    },
+    "tvoc": {
+      "slope": 0.964,
+      "intercept": -28.9,
+      "method": "linear",
+      "test_mae_before": 51.8,
+      "test_mae_after": 11.1
+    },
+    "pm1": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none"
+    },
+    "pm25": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none"
+    },
+    "pm10": {
+      "slope": 1.0,
+      "intercept": 0.0,
+      "method": "none"
+    }
+  },
+  "excluded": {
+    "humid": "node-b SHT31 humidity faulty. Use node-a humid only."
+  },
+  "notes": [
+    "SGP30 (eco2/tvoc) changes after power cycles and needs ~12 h to settle; prefer per-node change from pre-event baseline for classification.",
+    "Exclude first hours after each boot when comparing nodes.",
+    "node-b PM read ~50% of node-a from 2026-11-15 09:15 (under investigation); PM correction left as identity."
+  ]
+}

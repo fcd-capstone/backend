@@ -55,8 +55,8 @@ class APIContractTests(unittest.TestCase):
   self.ctl(action='play');self.advance(3)
   st=server.sessions[self.s['id']];raw=server.window(st,'node-b',st['start_ts'],st['virtual_ts'])[-1]
   b=self.snapshot()['nodes']['node-b']['metrics']
-  self.assertIsNone(b['humid']['value']);self.assertAlmostEqual(b['temp']['value'],raw['temp']+.07)
-  self.assertAlmostEqual(b['eco2']['value'],.9*raw['eco2']+41.49)
+  self.assertIsNone(b['humid']['value']);self.assertAlmostEqual(b['temp']['value'],raw['temp']+.24)
+  self.assertAlmostEqual(b['eco2']['value'],.858*raw['eco2']+57.5)
  def test_invalid_controls(self):
   for b in [{'action':'seek','ts':-1},{'action':'play','speed':2},{'action':'set_speed','speed':3},{'action':'unknown'}]:
    self.assertEqual(self.ctl(**b).status_code,422)

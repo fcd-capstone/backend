@@ -7,18 +7,21 @@ SENSORS = FIELDS[5:]
 def connect(path):
     db = sqlite3.connect(str(path))
     db.row_factory = sqlite3.Row
+    if db.execute("SELECT 1 FROM sqlite_master WHERE name='measurements'").fetchone() and [r['name'] for r in db.execute('PRAGMA table_info(measurements)') if r['pk']] != ['node','ts']:
+        db.close()
+        raise ValueError('Legacy database: use a new DB path and reimport CSVs; old database is retained')
     db.executescript('''
     CREATE TABLE IF NOT EXISTS measurements (
       node TEXT NOT NULL, boot INTEGER NOT NULL, seq INTEGER NOT NULL,
       ts REAL NOT NULL, raw TEXT NOT NULL,
-      PRIMARY KEY(node,boot,seq));
+      PRIMARY KEY(node,ts));
     CREATE INDEX IF NOT EXISTS measurement_time ON measurements(node,ts);
     CREATE TABLE IF NOT EXISTS datasets (
       id INTEGER PRIMARY KEY, name TEXT NOT NULL, kind TEXT NOT NULL,
       start_ts REAL NOT NULL, end_ts REAL NOT NULL);
     CREATE TABLE IF NOT EXISTS membership (
-      dataset_id INTEGER NOT NULL, node TEXT NOT NULL, boot INTEGER NOT NULL, seq INTEGER NOT NULL,
-      PRIMARY KEY(dataset_id,node,boot,seq));
+      dataset_id INTEGER NOT NULL, node TEXT NOT NULL, ts REAL NOT NULL,
+      PRIMARY KEY(dataset_id,node,ts));
     ''')
     return db
 
@@ -43,7 +46,7 @@ def parse(row):
                 raise ValueError(f'{key} must be integer')
             value=int(value)
         result[key]=value
-    if result['seq']<1 or result['boot']<0 or result['ts']<0:
+    if result['seq']<0 or result['boot']<0 or result['ts']<0:
         raise ValueError('Invalid identity/time')
     if result['motion'] not in (None,0,1):
         raise ValueError('motion must be 0, 1 or null')
@@ -65,9 +68,9 @@ def ingest(db,path,kind='sample'):
             for line,row in enumerate(reader,2):
                 try:
                     r=parse(row)
-                    key=(r['node'],r['boot'],r['seq'])
+                    key=(r['node'],r['ts'])
                     payload=json.dumps(r,sort_keys=True,allow_nan=False)
-                    prev=db.execute('SELECT raw FROM measurements WHERE node=? AND boot=? AND seq=?',key).fetchone()
+                    prev=db.execute('SELECT raw FROM measurements WHERE node=? AND ts=?',key).fetchone()
                     if prev:
                         # recv_ts may differ on retransmission; never overwrite original.
                         old=json.loads(prev['raw'])
@@ -75,9 +78,9 @@ def ingest(db,path,kind='sample'):
                             raise ValueError('Same identity with conflicting measurement')
                         duplicates+=1
                     else:
-                        db.execute('INSERT INTO measurements VALUES (?,?,?,?,?)',(*key,r['ts'],payload))
+                        db.execute('INSERT INTO measurements VALUES (?,?,?,?,?)',(r['node'],r['boot'],r['seq'],r['ts'],payload))
                         inserted+=1
-                    db.execute('INSERT OR IGNORE INTO membership VALUES (?,?,?,?)',(dataset,*key))
+                    db.execute('INSERT OR IGNORE INTO membership VALUES (?,?,?)',(dataset,*key))
                     lo=min(lo,r['ts']);hi=max(hi,r['ts'])
                 except (ValueError,TypeError) as e:
                     raise ValueError(f'CSV line {line}: {e}') from e
@@ -99,6 +102,9 @@ def load_calibration(path):
 def derive(raw,calibration,kind,start_ts):
     values={k:raw[k] for k in SENSORS}
     quality={}
+    if raw['ts'] < 1794901680:
+        values['motion']=None
+        quality['motion']='disabled_wiring'
     if raw['node']=='node-b':
         values['humid']=None
         quality['humid']='disabled_known_fault'
@@ -116,6 +122,7 @@ def derive(raw,calibration,kind,start_ts):
     # Humidity is display-only for A, never a model feature for either node.
     features={k:v for k,v in values.items() if k!='humid'}
     if saturated: features['co2']=None
+    if features['dp'] is not None: features['dp']=-features['dp']
     if warmup or kind=='sample':
         features={k:None for k in features}
     return dict(node=raw['node'],boot=raw['boot'],seq=raw['seq'],ts=raw['ts'],
@@ -123,13 +130,13 @@ def derive(raw,calibration,kind,start_ts):
                 calibration_warmup=warmup,training_eligible=kind=='experiment',
                 baseline_eligible=False,
                 calibration_version=calibration['version'],calibration_sha256=calibration['sha256'],
-                dp_correction_status='pending_sign_confirmation' if raw['node']=='node-a' else 'not_installed')
+                dp_correction_status='display_raw_analysis_inverted' if raw['node']=='node-a' else 'not_installed')
 
 def query(db,calibration,dataset_id,node=None,start=None,end=None,limit=1000,offset=0,latest=False):
     ds=db.execute('SELECT * FROM datasets WHERE id=?',(dataset_id,)).fetchone()
     if ds is None: raise ValueError('Dataset not found')
     sql='''SELECT m.raw FROM measurements m JOIN membership x
-    ON m.node=x.node AND m.boot=x.boot AND m.seq=x.seq WHERE x.dataset_id=?'''
+    ON m.node=x.node AND m.ts=x.ts WHERE x.dataset_id=?'''
     args=[dataset_id]
     for clause,value in [('m.node=?',node),('m.ts>=?',start),('m.ts<=?',end)]:
         if value is not None: sql+=' AND '+clause;args.append(value)

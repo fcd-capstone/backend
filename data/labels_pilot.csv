@@ -1,0 +1,13 @@
+﻿run,cause,event,ts,intensity,target_node,note
+1,normal,start,1794904974.797,,,order=1;아무 조작 없음;pilot
+1,normal,end,1794905043.445,,,
+2,external_inflow,start,1794905240.982,,,order=2;앞면 도어 칼집 벌리기;pilot
+2,external_inflow,end,1794905300.312,,,
+3,worker_activity,start,1794905503.104,,,order=3;막대 포트로 천+핫팩 막대 흔들기;pilot
+3,worker_activity,end,1794905563.743,,,
+4,hvac_fault,start,1794905752.362,,,order=4;팬 정지;pilot
+4,hvac_fault,end,1794905820.585,,,
+5,sensor_fault,start,1794906087.646,,node-b,order=5;흡입구 차폐;pilot
+5,sensor_fault,end,1794906150.082,,node-b,
+6,equipment_fault,start,1794906392.868,,node-a,order=6;양초;pilot
+6,equipment_fault,end,1794906455.710,,node-a,

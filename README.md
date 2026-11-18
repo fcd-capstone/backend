@@ -65,3 +65,5 @@ python -m unittest discover -s tests -v
 총 15개 테스트(기존 7+HTTP 연동 8)가 통과했습니다. HTTP 테스트는 임시 DB에 동봉 CSV를 적재하며 기존 로컬 DB를 변경하지 않습니다. 프론트 필수 필드, CORS, 보정·습도 제외, seek 초기화, 재생 상태, 시계열 요청 제한, SSE 첫 프레임을 검사합니다. 브라우저 E2E, SSE 장시간 재연결, 실제 현장 시험은 미검증입니다.
 
 추가 변경: snapshot은 노드별 시간 인덱스를 이진 탐색하여 전체 CSV 반복 순회를 피하고, 시계열은 요청 구간만 검색합니다. 메모리 세션·단일 worker 제약은 동일합니다. DB_PATH와 CORS_ORIGINS 환경변수를 지원합니다. 수치 요청에서 NaN/Infinity를 거절합니다. CORS_ORIGINS는 쉼표로 구분한 프론트 origin 목록입니다. 기본은 localhost:5173 및 127.0.0.1:5173입니다. .env 파일은 자동 로딩하지 않습니다.
+
+최신 버전 실행·데이터 안내는 [UPDATE_v0.4.md](UPDATE_v0.4.md)를 참고하세요.

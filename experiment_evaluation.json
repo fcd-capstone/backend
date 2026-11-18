@@ -1,0 +1,494 @@
+{
+  "method": "leave-one-run-out / standardized nearest centroid, offline closed labeled windows",
+  "run_count": 70,
+  "accuracy": 0.5571428571428572,
+  "confusion_matrix": {
+    "equipment_fault": {
+      "equipment_fault": 6,
+      "external_inflow": 0,
+      "hvac_fault": 0,
+      "normal": 0,
+      "sensor_fault": 2,
+      "worker_activity": 2
+    },
+    "external_inflow": {
+      "equipment_fault": 0,
+      "external_inflow": 5,
+      "hvac_fault": 0,
+      "normal": 1,
+      "sensor_fault": 4,
+      "worker_activity": 0
+    },
+    "hvac_fault": {
+      "equipment_fault": 0,
+      "external_inflow": 1,
+      "hvac_fault": 6,
+      "normal": 1,
+      "sensor_fault": 2,
+      "worker_activity": 0
+    },
+    "normal": {
+      "equipment_fault": 0,
+      "external_inflow": 0,
+      "hvac_fault": 0,
+      "normal": 12,
+      "sensor_fault": 7,
+      "worker_activity": 1
+    },
+    "sensor_fault": {
+      "equipment_fault": 0,
+      "external_inflow": 0,
+      "hvac_fault": 1,
+      "normal": 2,
+      "sensor_fault": 6,
+      "worker_activity": 1
+    },
+    "worker_activity": {
+      "equipment_fault": 0,
+      "external_inflow": 0,
+      "hvac_fault": 0,
+      "normal": 2,
+      "sensor_fault": 4,
+      "worker_activity": 4
+    }
+  },
+  "top_confusions": [
+    {
+      "actual": "normal",
+      "predicted": "sensor_fault",
+      "count": 7
+    },
+    {
+      "actual": "worker_activity",
+      "predicted": "sensor_fault",
+      "count": 4
+    },
+    {
+      "actual": "external_inflow",
+      "predicted": "sensor_fault",
+      "count": 4
+    },
+    {
+      "actual": "sensor_fault",
+      "predicted": "normal",
+      "count": 2
+    },
+    {
+      "actual": "equipment_fault",
+      "predicted": "sensor_fault",
+      "count": 2
+    },
+    {
+      "actual": "worker_activity",
+      "predicted": "normal",
+      "count": 2
+    },
+    {
+      "actual": "equipment_fault",
+      "predicted": "worker_activity",
+      "count": 2
+    },
+    {
+      "actual": "hvac_fault",
+      "predicted": "sensor_fault",
+      "count": 2
+    },
+    {
+      "actual": "normal",
+      "predicted": "worker_activity",
+      "count": 1
+    },
+    {
+      "actual": "hvac_fault",
+      "predicted": "normal",
+      "count": 1
+    },
+    {
+      "actual": "sensor_fault",
+      "predicted": "worker_activity",
+      "count": 1
+    },
+    {
+      "actual": "external_inflow",
+      "predicted": "normal",
+      "count": 1
+    },
+    {
+      "actual": "sensor_fault",
+      "predicted": "hvac_fault",
+      "count": 1
+    },
+    {
+      "actual": "hvac_fault",
+      "predicted": "external_inflow",
+      "count": 1
+    }
+  ],
+  "predictions": [
+    {
+      "run": 8,
+      "actual": "normal",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 9,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 10,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 11,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 12,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 13,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 14,
+      "actual": "worker_activity",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 15,
+      "actual": "sensor_fault",
+      "predicted": "normal"
+    },
+    {
+      "run": 16,
+      "actual": "equipment_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 18,
+      "actual": "worker_activity",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 19,
+      "actual": "external_inflow",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 20,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 21,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 22,
+      "actual": "worker_activity",
+      "predicted": "normal"
+    },
+    {
+      "run": 23,
+      "actual": "sensor_fault",
+      "predicted": "normal"
+    },
+    {
+      "run": 24,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 25,
+      "actual": "worker_activity",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 26,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 28,
+      "actual": "worker_activity",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 29,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 30,
+      "actual": "external_inflow",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 31,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 32,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 33,
+      "actual": "equipment_fault",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 34,
+      "actual": "hvac_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 35,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 36,
+      "actual": "external_inflow",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 37,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 38,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 39,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 40,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 41,
+      "actual": "external_inflow",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 42,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 43,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 44,
+      "actual": "external_inflow",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 45,
+      "actual": "hvac_fault",
+      "predicted": "normal"
+    },
+    {
+      "run": 46,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 47,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 48,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 49,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 50,
+      "actual": "equipment_fault",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 51,
+      "actual": "external_inflow",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 52,
+      "actual": "sensor_fault",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 53,
+      "actual": "worker_activity",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 54,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 55,
+      "actual": "worker_activity",
+      "predicted": "normal"
+    },
+    {
+      "run": 56,
+      "actual": "hvac_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 57,
+      "actual": "external_inflow",
+      "predicted": "normal"
+    },
+    {
+      "run": 58,
+      "actual": "worker_activity",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 59,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 60,
+      "actual": "external_inflow",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 61,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 62,
+      "actual": "external_inflow",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 63,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 64,
+      "actual": "equipment_fault",
+      "predicted": "equipment_fault"
+    },
+    {
+      "run": 65,
+      "actual": "worker_activity",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 66,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 67,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 68,
+      "actual": "sensor_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 69,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 70,
+      "actual": "hvac_fault",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 71,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 72,
+      "actual": "worker_activity",
+      "predicted": "worker_activity"
+    },
+    {
+      "run": 73,
+      "actual": "normal",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 74,
+      "actual": "hvac_fault",
+      "predicted": "hvac_fault"
+    },
+    {
+      "run": 75,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 76,
+      "actual": "external_inflow",
+      "predicted": "external_inflow"
+    },
+    {
+      "run": 77,
+      "actual": "normal",
+      "predicted": "normal"
+    },
+    {
+      "run": 78,
+      "actual": "sensor_fault",
+      "predicted": "sensor_fault"
+    },
+    {
+      "run": 79,
+      "actual": "equipment_fault",
+      "predicted": "sensor_fault"
+    }
+  ],
+  "experimental_normal_alignment": {
+    "eco2": {
+      "eligible_runs": 10,
+      "candidate_B_offset_after_v3": -55.83099999999999
+    },
+    "tvoc": {
+      "eligible_runs": 10,
+      "candidate_B_offset_after_v3": 13.184000000000012
+    }
+  },
+  "notes": [
+    "No pilot used in primary score. Candidate offsets are descriptive only, not used in classifier or automatically applied to display.",
+    "Only labeled windows; first 5 eligible seconds used as within-run reference, not true pre-event baseline. DP skips first 10s. Offline score does not measure streaming detection.",
+    "Masks use provided run annotations. Runs share the same chamber and two days; no claim of generalization."
+  ]
+}
